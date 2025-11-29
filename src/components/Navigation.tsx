@@ -117,32 +117,7 @@ const Navigation = () => {
             <div className="flex items-center gap-2">
               
               {/* --- LANGUAGE DROPDOWN (DESKTOP) --- */}
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="hidden md:flex hover:bg-secondary rounded-lg"
-                    title="Change Language"
-                  >
-                    <Languages className="h-5 w-5" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={() => setLanguage("fr")} className="cursor-pointer">
-                    <span className="flex items-center justify-between w-full">
-                      Français
-                      {language === "fr" && <Check className="h-4 w-4 ml-2" />}
-                    </span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setLanguage("en")} className="cursor-pointer">
-                    <span className="flex items-center justify-between w-full">
-                      English
-                      {language === "en" && <Check className="h-4 w-4 ml-2" />}
-                    </span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+            
 
               <Button
                 variant="ghost"
@@ -191,34 +166,7 @@ const Navigation = () => {
                 })}
                 <div className="px-4 pt-2 border-t border-border mt-2 flex items-center justify-between gap-4">
                   
-                  {/* --- LANGUAGE DROPDOWN (MOBILE) --- */}
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="outline" className="w-full flex justify-between">
-                        <span className="flex items-center gap-2">
-                          <Languages className="h-4 w-4" />
-                          {language === "fr" ? "Français" : "English"}
-                        </span>
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="w-56">
-                      <DropdownMenuItem onClick={() => setLanguage("fr")}>
-                        Français {language === "fr" && <Check className="h-4 w-4 ml-auto" />}
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => setLanguage("en")}>
-                        English {language === "en" && <Check className="h-4 w-4 ml-auto" />}
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    className="shrink-0"
-                    onClick={toggleTheme}
-                  >
-                    {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-                  </Button>
+            
                 </div>
               </div>
             </div>

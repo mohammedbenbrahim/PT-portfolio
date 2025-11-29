@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { 
   MapPin, Briefcase, Code, Coffee, Search, 
-  Layout, Database, Server, Globe, ChevronDown, ChevronUp
+  Layout, Database, Server, Globe, ChevronDown, ChevronUp, GraduationCap
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -12,26 +12,26 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-// --- HELPER: Tech Stack Icons ---
+// --- HELPER: Tech Stack / Subject Icons ---
 const getTechIcon = (tech: string) => {
   if (tech.includes("React") || tech.includes("Next")) return <Layout className="w-3 h-3" />;
-  if (tech.includes("Postgre") || tech.includes("SQL")) return <Database className="w-3 h-3" />;
-  if (tech.includes("Django") || tech.includes("Node")) return <Server className="w-3 h-3" />;
+  if (tech.includes("Postgre") || tech.includes("SQL") || tech.includes("Data")) return <Database className="w-3 h-3" />;
+  if (tech.includes("Django") || tech.includes("Node") || tech.includes("System")) return <Server className="w-3 h-3" />;
+  if (tech.includes("Math") || tech.includes("Science") || tech.includes("Physics")) return <GraduationCap className="w-3 h-3" />;
   return <Globe className="w-3 h-3" />;
 };
 
-// --- SUB-COMPONENT: Single Timeline Item ---
-// This handles the "Read More" state for each card individually
+// --- SUB-COMPONENT: Single Timeline Item (Reused for Work & Education) ---
 const TimelineItem = ({ item, index, isEven }: { item: any, index: number, isEven: boolean }) => {
   const [expanded, setExpanded] = useState(false);
 
   return (
     <div className={cn(
       "relative flex flex-col md:flex-row gap-8 mb-12 md:mb-24",
-      isEven ? "md:flex-row-reverse" : "" // Alternates left/right on desktop
+      isEven ? "md:flex-row-reverse" : "" 
     )}>
       
-      {/* 1. SPACER (Desktop Only) - Pushes content to the side */}
+      {/* 1. SPACER (Desktop Only) */}
       <div className="hidden md:block flex-1" />
 
       {/* 2. CENTRAL NODE (The Number) */}
@@ -41,15 +41,15 @@ const TimelineItem = ({ item, index, isEven }: { item: any, index: number, isEve
 
       {/* 3. CONTENT CARD */}
       <div className={cn(
-        "flex-1 pl-16 md:pl-0", // Add padding on mobile for the line
+        "flex-1 pl-16 md:pl-0", 
         isEven ? "md:pr-12 text-left" : "md:pl-12 text-left"
       )}>
         <Card className="relative p-6 md:p-8 bg-card/50 backdrop-blur-md border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg group overflow-hidden">
           
-          {/* Glow Effect behind card */}
+          {/* Glow Effect */}
           <div className="absolute -right-10 -top-10 w-32 h-32 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-colors" />
 
-          {/* Header: Date & Type */}
+          {/* Header */}
           <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
             <span className="text-sm font-mono text-primary font-semibold tracking-wider">
               {item.date} • {item.company}
@@ -68,11 +68,11 @@ const TimelineItem = ({ item, index, isEven }: { item: any, index: number, isEve
             {item.location}
           </div>
 
-          {/* Description with Expand Logic */}
+          {/* Description */}
           <div className="relative mb-6">
             <p className={cn(
               "text-muted-foreground text-base leading-relaxed",
-              !expanded && "line-clamp-3" // Show only 3 lines if not expanded
+              !expanded && "line-clamp-3"
             )}>
               {item.description}
             </p>
@@ -85,18 +85,20 @@ const TimelineItem = ({ item, index, isEven }: { item: any, index: number, isEve
             </button>
           </div>
 
-          {/* Tech Stack Pills */}
-          <div className="flex flex-wrap gap-2 pt-4 border-t border-border/30">
-            {item.tags.map((tag: string, i: number) => (
-              <div 
-                key={i} 
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-background border border-border text-xs font-semibold text-foreground shadow-sm group-hover:border-primary/30 transition-colors"
-              >
-                {getTechIcon(tag)}
-                {tag}
-              </div>
-            ))}
-          </div>
+          {/* Tags */}
+          {item.tags && item.tags.length > 0 && (
+            <div className="flex flex-wrap gap-2 pt-4 border-t border-border/30">
+              {item.tags.map((tag: string, i: number) => (
+                <div 
+                  key={i} 
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-background border border-border text-xs font-semibold text-foreground shadow-sm group-hover:border-primary/30 transition-colors"
+                >
+                  {getTechIcon(tag)}
+                  {tag}
+                </div>
+              ))}
+            </div>
+          )}
         </Card>
       </div>
     </div>
@@ -117,7 +119,8 @@ const About = () => {
     { icon: Coffee, label: t("about.coffees") },
   ];
 
-  const allExperiences = [
+  // Work Data
+  const workExperience = [
     {
       id: 1,
       title: t("about.work1Title"),
@@ -138,7 +141,6 @@ const About = () => {
       description: t("about.work2Desc") + " Developed responsive frontend interfaces using React and Tailwind CSS. Collaborated with the UX team to implement pixel-perfect designs. Optimized backend API endpoints using Django Rest Framework.",
       tags: ["Django", "Rest Framework", "React", "PostgreSQL", "JavaScript"]
     },
-    // Add more mock data to see the effect fully
     {
       id: 3,
       title: "Freelance Full Stack Dev",
@@ -151,18 +153,38 @@ const About = () => {
     }
   ];
 
-  const education = [
+  // Education Data
+  const educationExperience = [
     {
-      year: t("about.exp1Year"),
-      title: t("about.exp1Title"),
-      company: t("about.exp1Company"),
-      description: t("about.exp1Desc"),
+      id: 101,
+      title: t("about.exp1Title"), 
+      company: t("about.exp1Company"), 
+      date: t("2025 - 2026"),
+      location: "Mohammedia, Morocco",
+      type: "Professional license", 
+      description: "Professional Bachelor's Degree specializing in advanced software engineering, project management, and full-stack development. Practical experience through applied projects and industry-based case studies.",
+      tags: ["Distributed Systems", "Advanced Algorithms", "System Design"]
     },
     {
-      year: t("about.exp2Year"),
-      title: t("about.exp2Title"),
-      company: t("about.exp2Company"),
-      description: t("about.exp2Desc"),
+      id: 102,
+      title: t("about.exp2Title"), 
+      company: t("Ifiag"),
+      date: t("2023 - 2025"),
+      location: "Casablanca, Morocco",
+      type: "DTS",
+      description: "DTS in Software Development focusing on programming, databases, networks, and information systems. Hands-on projects in web and mobile development using modern technologies.",
+      tags: ["Data Structures", "Mathematics", "Computer Architecture"]
+    },
+    // --- NEW EDUCATION ITEM ADDED HERE ---
+    {
+      id: 103,
+      title: "Baccalaureate (physical Sciences)", // You can add a translation key here: t("about.exp3Title")
+      company: "lycee authenticite privee ii", // Placeholder name
+      date: "#",
+      location: "Casablanca, Morocco",
+      type: "High School",
+      description: "Graduated with High Honors . Specialized in Mathematics and Physics, developing strong analytical problem-solving skills.",
+      tags: ["Mathematics", "Physics", "French"]
     },
   ];
 
@@ -172,11 +194,23 @@ const About = () => {
     { name: "TypeScript", color: "bg-primary/60" },
   ];
 
-  const filteredExperiences = allExperiences.filter(exp => {
-    const matchesType = filterType === "all" || exp.type === filterType;
+  // Determine which data to show
+  const rawData = activeTab === "work" ? workExperience : educationExperience;
+
+  // Apply filters
+  const filteredData = rawData.filter(item => {
+    // We treat "work" filters separately, or you can add education types to the filter logic if desired
+    if (activeTab === "education") {
+        const matchesSearch = 
+            item.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+            item.company.toLowerCase().includes(searchQuery.toLowerCase());
+        return matchesSearch;
+    }
+
+    const matchesType = filterType === "all" || item.type === filterType;
     const matchesSearch = 
-      exp.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-      exp.company.toLowerCase().includes(searchQuery.toLowerCase());
+      item.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+      item.company.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesType && matchesSearch;
   });
 
@@ -255,9 +289,9 @@ const About = () => {
             </button>
           </div>
 
-          {/* Filters */}
+          {/* Filters - Only show for Work tab */}
           {activeTab === "work" && (
-            <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto items-center">
+            <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto items-center animate-in fade-in slide-in-from-right-4 duration-500">
               <div className="flex gap-2 bg-secondary/20 p-1 rounded-full border border-border/30">
                 {["all", "internship", "full-time"].map((type) => (
                   <button
@@ -293,20 +327,20 @@ const About = () => {
           {/* CENTRAL SPINE (Line) */}
           <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-primary via-primary/50 to-transparent md:-translate-x-1/2" />
 
-          {activeTab === "work" ? (
-            <div className="space-y-4">
-              {filteredExperiences.length > 0 ? (
-                filteredExperiences.map((item, idx) => (
-                  <TimelineItem 
-                    key={item.id} 
-                    item={item} 
-                    index={filteredExperiences.length - idx} 
-                    isEven={idx % 2 === 0} 
-                  />
-                ))
-              ) : (
-                <div className="text-center py-20">
-                  <p className="text-muted-foreground text-lg">No experiences found matching your criteria.</p>
+          <div className="space-y-4">
+            {filteredData.length > 0 ? (
+              filteredData.map((item, idx) => (
+                <TimelineItem 
+                  key={item.id} 
+                  item={item} 
+                  index={filteredData.length - idx} 
+                  isEven={idx % 2 === 0} 
+                />
+              ))
+            ) : (
+              <div className="text-center py-20">
+                <p className="text-muted-foreground text-lg">No experiences found matching your criteria.</p>
+                {activeTab === "work" && (
                   <Button 
                     variant="link" 
                     onClick={() => {setFilterType('all'); setSearchQuery('')}} 
@@ -314,36 +348,10 @@ const About = () => {
                   >
                     Clear filters
                   </Button>
-                </div>
-              )}
-            </div>
-          ) : (
-            // Education Timeline (Vertical Stack)
-            <div className="max-w-4xl mx-auto space-y-12 pl-8 md:pl-0">
-              {education.map((item, idx) => (
-                <div key={idx} className="relative md:grid md:grid-cols-[1fr_auto_1fr] gap-8 items-center group">
-                  
-                  {/* Date (Left on desktop) */}
-                  <div className="hidden md:block text-right">
-                    <h3 className="text-2xl font-bold text-primary">{item.year}</h3>
-                  </div>
-
-                  {/* Center Dot */}
-                  <div className="absolute left-[-4px] md:relative md:left-auto w-3 h-3 bg-primary rounded-full ring-4 ring-background z-10" />
-
-                  {/* Card (Right on desktop) */}
-                  <Card className="p-6 bg-card/40 border-border/50 hover:border-primary/50 transition-all hover:shadow-lg">
-                    <div className="md:hidden text-xl font-bold text-primary mb-2">{item.year}</div>
-                    <h3 className="text-xl font-bold mb-1">{item.title}</h3>
-                    <div className="text-muted-foreground font-medium mb-2">{item.company}</div>
-                    <p className="text-muted-foreground text-sm leading-relaxed">
-                      {item.description}
-                    </p>
-                  </Card>
-                </div>
-              ))}
-            </div>
-          )}
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </section>

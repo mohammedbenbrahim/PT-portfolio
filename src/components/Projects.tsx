@@ -9,21 +9,21 @@ const Projects = () => {
 
   const projects = [
     {
-      title: t("projects.project1Title"),
+      title: t("Chat Bot "),
       description: t("projects.project1Desc"),
       tags: ["React", "Node.js", "PostgreSQL", "Stripe"],
       github: "#",
       demo: "#",
     },
     {
-      title: t("projects.project2Title"),
+      title: t("Qr Generator "),
       description: t("projects.project2Desc"),
       tags: ["Next.js", "TypeScript", "MongoDB"],
       github: "#",
       demo: "#",
     },
     {
-      title: t("projects.project3Title"),
+      title: t("project-3"),
       description: t("projects.project3Desc"),
       tags: ["React", "Tailwind CSS", "Framer Motion"],
       github: "#",

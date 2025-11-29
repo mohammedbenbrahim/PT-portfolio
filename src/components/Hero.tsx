@@ -39,7 +39,8 @@ const Hero = () => {
   return (
     <section 
       id="home" 
-      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 md:pt-32 scroll-mt-28"
+      // Adjusted padding for a better mobile fit
+      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16 pb-12 md:pt-32 scroll-mt-28"
     >
       {/* --- Background Elements --- */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -72,10 +73,29 @@ const Hero = () => {
       {/* --- MAIN CONTAINER --- */}
       <div className="w-full max-w-6xl mx-auto px-6 md:px-12 relative z-10">
         
+        {/* Main Flex Container: order-classes control mobile stacking */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-10 lg:gap-16">
           
-          {/* Left Side - Text Content */}
-          <div className="flex-1 text-center md:text-left space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+          {/* Right Side - Image (Now first on mobile)
+            Use 'order-1' on mobile and 'md:order-2' on medium screens and up.
+          */}
+          <div className="flex-1 flex justify-center md:justify-end animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300 order-1 md:order-2">
+            <div className="relative group w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96">
+              <div className="absolute -inset-4 bg-gradient-to-r from-primary to-accent opacity-20 blur-2xl rounded-full -z-10 group-hover:opacity-30 transition-opacity" />
+              <img 
+                src="/me.png" 
+                alt="Mohammed Benbrahim" 
+                // FIX: Added mixBlendMode: 'screen' to make the black background transparent
+                style={{ mixBlendMode: 'screen' }}
+                className="w-full h-full rounded-full object-cover border-4 border-primary/20 shadow-2xl transform hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+          </div>
+
+          {/* Left Side - Text Content (Now second on mobile)
+            Use 'order-2' on mobile and 'md:order-1' on medium screens and up.
+          */}
+          <div className="flex-1 text-center md:text-left space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-1000 order-2 md:order-1">
             <div className="inline-block px-3 py-1 bg-primary/10 border border-primary/20 rounded-full text-xs md:text-sm text-primary">
               <span className="inline-block mr-1">👋</span>
               {t("hero.welcome")}
@@ -138,20 +158,6 @@ const Hero = () => {
               >
                 <XIcon className="h-5 w-5" /> {/* Use the custom component */}
               </a>
-            </div>
-          </div>
-
-          {/* Right Side - Image */}
-          <div className="flex-1 flex justify-center md:justify-end animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
-            <div className="relative group w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96">
-              <div className="absolute -inset-4 bg-gradient-to-r from-primary to-accent opacity-20 blur-2xl rounded-full -z-10 group-hover:opacity-30 transition-opacity" />
-              <img 
-                src="/me.png" 
-                alt="Mohammed Benbrahim" 
-                // FIX: Added mixBlendMode: 'screen' to make the black background transparent
-                style={{ mixBlendMode: 'screen' }}
-                className="w-full h-full rounded-full object-cover border-4 border-primary/20 shadow-2xl transform hover:scale-105 transition-transform duration-500"
-              />
             </div>
           </div>
         </div>
